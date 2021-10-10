@@ -1,2 +1,4 @@
 Code/Server/__pycache__/
 Code/Server/image.jpg
+.vscode/
+*.code-workspace
