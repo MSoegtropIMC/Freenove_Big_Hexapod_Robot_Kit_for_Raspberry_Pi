@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #Import everything in the control module, 
 #including functions, classes, variables, and more.
 from Control import *
@@ -15,6 +16,11 @@ c=Control()
 #Delay:'10'
 #Action Mode : '0'   Angleless turn
 
+# Attiture angles
+roll = pitch = yaw = 0
+# Body positions
+body_x = body_y = body_z = 0
+
 while True:
     if keyboard.is_pressed('esc'):
         # Stand on all legs
@@ -30,6 +36,16 @@ while True:
         #Stand on all legs
         data=['CMD_MOVE', '1', '0', '0', '10', '0']
         c.run(data)
+        # The above command resets roll itch yaw and body pos
+        roll = pitch = yaw = 0
+        body_x = body_y = body_z = 0
+
+    elif keyboard.is_pressed('o'):
+        #Stand on all legs, then relax
+        data=['CMD_MOVE', '1', '0', '0', '10', '0']
+        c.run(data)
+        # Motor power off
+        c.relax(True)
 
     # Usual "walk and turn" action
 
@@ -85,14 +101,10 @@ while True:
         data=['CMD_MOVE', '1', '-25', '25', '10', '0']
         c.run(data)
 
-    elif keyboard.is_pressed('y') or keyboard.is_pressed('z'):
+    # Note: y is for german keyboards
+    elif keyboard.is_pressed('y'):
         #Move backwards left without turn
         data=['CMD_MOVE', '1', '-25', '-25', '10', '0']
-        c.run(data)
-
-    elif keyboard.is_pressed('y'):
-        #Move front right without turn
-        data=['CMD_MOVE', '1', '25', '25', '10', '0']
         c.run(data)
 
     elif keyboard.is_pressed('g'):
@@ -109,3 +121,41 @@ while True:
         #Move backwards right without turn
         data=['CMD_MOVE', '1', '25', '-25', '10', '0']
         c.run(data)
+
+    # Attitude commands
+
+    elif keyboard.is_pressed('z'):
+        roll -= 1
+        c.attitude(roll, pitch, yaw)
+        print(roll, pitch, yaw)
+        time.sleep(0.2)
+
+    elif keyboard.is_pressed('u'):
+        roll += 1
+        c.attitude(roll, pitch, yaw)
+        print(roll, pitch, yaw)
+        time.sleep(0.2)
+
+    elif keyboard.is_pressed('h'):
+        pitch -= 1
+        c.attitude(roll, pitch, yaw)
+        print(roll, pitch, yaw)
+        time.sleep(0.2)
+
+    elif keyboard.is_pressed('j'):
+        pitch += 1
+        c.attitude(roll, pitch, yaw)
+        print(roll, pitch, yaw)
+        time.sleep(0.2)
+
+    elif keyboard.is_pressed('n'):
+        yaw -= 1
+        c.attitude(roll, pitch, yaw)
+        print(roll, pitch, yaw)
+        time.sleep(0.2)
+
+    elif keyboard.is_pressed('m'):
+        yaw += 1
+        c.attitude(roll, pitch, yaw)
+        print(roll, pitch, yaw)
+        time.sleep(0.2)
