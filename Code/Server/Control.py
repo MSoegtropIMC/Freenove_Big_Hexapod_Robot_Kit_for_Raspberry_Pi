@@ -58,6 +58,8 @@ class Control:
         file2.close()
         
     def coordinateToAngle(self,ox,oy,oz,l1=33,l2=90,l3=110):
+        """a is hip sideways angle, b is hip up/down angle, c is knee angle (all in degrees).
+           ox is vertical coorsinate - typically called with corrdinates -2,0,1"""
         a=math.pi/2-math.atan2(oz,oy)
         x_3=0
         x_4=l1*math.sin(a)
@@ -73,6 +75,9 @@ class Control:
         c=round(math.degrees(c))
         return a,b,c
     def angleToCoordinate(self,a,b,c,l1=33,l2=90,l3=110):
+        """a is hip sideways angle, b is hip up/down angle, c is knee angle (all in degrees)"""
+        # FUNCTION UNUSED
+        # ox appears to be vertical coordinate (independent of a) - also coordinateToAngle is called with coordinates 2,0,1
         a=math.pi/180*a
         b=math.pi/180*b
         c=math.pi/180*c
@@ -243,6 +248,9 @@ class Control:
             self.setLegAngle()
         
     def coordinateTransformation(self,point):
+        """Convert 6 leg coordinates from robot coordinate system to leg coordinate system"""
+        # 94mm is the radial distance from the robot center to the front and back legs
+        # 85mm is the radial distance from the robot center to the side legs
         #leg1
         self.leg_point[0][0]=point[0][0]*math.cos(54/180*math.pi)+point[0][1]*math.sin(54/180*math.pi)-94
         self.leg_point[0][1]=-point[0][0]*math.sin(54/180*math.pi)+point[0][1]*math.cos(54/180*math.pi)
