@@ -40,7 +40,7 @@ while True:
         roll = pitch = yaw = 0
         body_x = body_y = body_z = 0
 
-    elif keyboard.is_pressed('o'):
+    elif keyboard.is_pressed('p'):
         #Stand on all legs, then relax
         data=['CMD_MOVE', '1', '0', '0', '10', '0']
         c.run(data)
@@ -127,35 +127,61 @@ while True:
     elif keyboard.is_pressed('z'):
         roll -= 1
         c.attitude(roll, pitch, yaw)
-        print(roll, pitch, yaw)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
     elif keyboard.is_pressed('u'):
         roll += 1
         c.attitude(roll, pitch, yaw)
-        print(roll, pitch, yaw)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
     elif keyboard.is_pressed('h'):
         pitch -= 1
         c.attitude(roll, pitch, yaw)
-        print(roll, pitch, yaw)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
     elif keyboard.is_pressed('j'):
         pitch += 1
         c.attitude(roll, pitch, yaw)
-        print(roll, pitch, yaw)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
     elif keyboard.is_pressed('n'):
         yaw -= 1
         c.attitude(roll, pitch, yaw)
-        print(roll, pitch, yaw)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
     elif keyboard.is_pressed('m'):
         yaw += 1
         c.attitude(roll, pitch, yaw)
-        print(roll, pitch, yaw)
-        time.sleep(0.2)
+        time.sleep(0.1)
+
+    # Position commands
+
+    elif keyboard.is_pressed('i'):
+        body_x -= 2
+        c.position(body_x, body_y, body_z)
+        time.sleep(0.1)
+
+    elif keyboard.is_pressed('o'):
+        body_x += 2
+        c.position(body_x, body_y, body_z)
+        time.sleep(0.1)
+
+    elif keyboard.is_pressed('k'):
+        body_y -= 2
+        c.position(body_x, body_y, body_z)
+        time.sleep(0.1)
+
+    elif keyboard.is_pressed('l'):
+        body_y += 2
+        c.position(body_x, body_y, body_z)
+        time.sleep(0.1)
+
+    elif keyboard.is_pressed(','):
+        body_z -= 2
+        c.position(body_x, body_y, body_z)
+        time.sleep(0.1)
+
+    elif keyboard.is_pressed('.'):
+        body_z += 2
+        c.position(body_x, body_y, body_z)
+        time.sleep(0.1)
