@@ -164,21 +164,13 @@ class Control:
             if cmd.CMD_POSITION in self.order and len(self.order)==4:
                 if self.flag!=0x01:
                     self.relax(False)
-                x=self.restriction(int(self.order[1]),-40,40)
-                y=self.restriction(int(self.order[2]),-40,40)
-                z=self.restriction(int(self.order[3]),-20,20)
-                self.posittion(x,y,z)
+                self.position(int(self.order[1]),int(self.order[2]),int(self.order[3]))
                 self.flag=0x01
                 self.order=['','','','','',''] 
             elif cmd.CMD_ATTITUDE in self.order and len(self.order)==4:
                 if self.flag!=0x02:
                     self.relax(False)
-                r=self.restriction(int(self.order[1]),-15,15)
-                p=self.restriction(int(self.order[2]),-15,15)
-                y=self.restriction(int(self.order[3]),-15,15)
-                point=self.postureBalance(r,p,y)
-                self.coordinateTransformation(point)
-                self.setLegAngle()
+                self.attitude(int(self.order[1]),int(self.order[2]),int(self.order[3]))
                 self.flag=0x02
                 self.order=['','','','','',''] 
             elif cmd.CMD_MOVE in self.order and len(self.order)==6:
@@ -287,7 +279,10 @@ class Control:
     def map(self,value,fromLow,fromHigh,toLow,toHigh):
         return (toHigh-toLow)*(value-fromLow) / (fromHigh-fromLow) + toLow
     
-    def posittion(self,x,y,z):
+    def position(self,x,y,z):
+        x=self.restriction(x,-40,40)
+        y=self.restriction(y,-40,40)
+        z=self.restriction(z,-20,20)
         point=copy.deepcopy(self.body_point)
         for i in range(6):
             point[i][0]=self.body_point[i][0]-x
@@ -295,6 +290,14 @@ class Control:
             point[i][2]=-30-z
             self.height=point[i][2]
             self.body_point[i][2]=point[i][2]
+        self.coordinateTransformation(point)
+        self.setLegAngle()
+            
+    def attitude(self,roll,pitch,yaw):
+        r=self.restriction(roll,-15,15)
+        p=self.restriction(pitch,-15,15)
+        y=self.restriction(yaw,-15,15)
+        point=self.postureBalance(roll,pitch,yaw)
         self.coordinateTransformation(point)
         self.setLegAngle()
             
